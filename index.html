@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Woesel Chatbot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1e1e1e;
+            font-family: "Press Start 2P", cursive, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #ffcc70;
+            text-align: center;
+        }
+
+        .home-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 40px;
+            text-shadow: 3px 3px #000;
+        }
+
+        .start-btn {
+            padding: 15px 25px;
+            font-size: 16px;
+            font-family: inherit;
+            background: #ffcc70;
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .start-btn:hover {
+            background: #ffaa33;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="home-container">
+        <h1>Woesel Chatbot</h1>
+        <button class="start-btn" onclick="playStart()">Start</button>
+    </div>
+
+    <!-- Arcade background music -->
+    <audio id="bg-music" src="assets/sounds/arcade-music.wav" loop></audio>
+
+    <script>
+        const music = document.getElementById("bg-music");
+
+        // Restore previous position if exists
+        const savedTime = localStorage.getItem("musicTime");
+        if (savedTime) {
+            music.currentTime = parseFloat(savedTime);
+        }
+        music.volume = 0.3;
+        music.play().catch(err => {
+            console.log("Autoplay blocked, will start on interaction:", err);
+        });
+
+        function playStart() {
+            const sound = new Audio("assets/sounds/start.mp3");
+            sound.play();
+
+            // Save current time to localStorage
+            localStorage.setItem("musicTime", music.currentTime);
+
+            // Stop music
+            music.pause();
+
+            // Redirect after short delay
+            setTimeout(() => {
+                location.href = "chat.html";
+            }, 600);
+        }
+    </script>
+</body>
+
+</html>
